@@ -1,14 +1,14 @@
 pipeline {
-    agent {
-        label 'my_wins'
-    }
-    stages {
-        stage('Example') {
-            steps {
-                script{
-                    bat 'docker run -d -t maven:3.9.3-eclipse-temurin-17'
-                }
-            }
-        }
-    }
+ agent any  
+parameters {  
+    choice(name: 'TARGET_ENV', choices: ['dev', 'staging', 'production'], description: 'Select the target environment')  
+}  
+stages {  
+    stage('Test') {  
+        steps {  
+            echo "Running tests in the ${params.TARGET_ENV} environment."  
+            // Add steps to run tests in the selected environment  
+        }  
+    }  
+}
 }
