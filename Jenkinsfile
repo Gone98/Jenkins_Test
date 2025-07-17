@@ -13,7 +13,7 @@ stages {
 							sshPublssisher(
 								publishers: [
 									sshPublisherDesc(
-										configName: cr_server, 
+										configName: "${env.serverList}",
 										transfers: [
 											sshTransfer(
 												execCommand: "cat test1.txt",
