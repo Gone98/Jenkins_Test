@@ -1,14 +1,31 @@
 pipeline {
  agent any  
-//parameters {  
-//    choice(name: 'TARGET_ENV', choices: ['dev', 'staging', 'production'], description: 'Select the target environment')  
-//}  
+parameters {  
+    choice(name: 'containers', choices: ['mytomcat'], description: 'SSH server')  
+}  
 stages {  
     stage('Test') {  
-        steps {  
-            echo "Running tests in the ${params.TARGET_ENV} environment."  
-            // Add steps to run tests in the selected environment  
-        }  
-    }  
+        steps([$class: 'BapSshPromotionPublisherPlugin']) {
+                script {
+                    // SERVERS_LISTをカンマで分割してサーバーリストの配列を作成する
+                    env.serverList =  params.containers
+                    
+							sshPublssisher(
+								publishers: [
+									sshPublisherDesc(
+										configName: cr_server, 
+										transfers: [
+											sshTransfer(
+												execCommand: "cat test1.txt",
+												remoteDirectory: "rkuwartest_jenkins", 
+												sourceFiles: 'test1.txt'
+											)
+										], 
+									)
+								]
+							)
+                }    
+        }
+    }
 }
 }
