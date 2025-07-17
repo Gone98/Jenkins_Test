@@ -10,14 +10,14 @@ stages {
                     // SERVERS_LISTをカンマで分割してサーバーリストの配列を作成する
                     env.serverList =  params.containers
                     
-							sshPublssisher(
+							sshPublisher(
 								publishers: [
 									sshPublisherDesc(
 										configName: "${env.serverList}",
 										transfers: [
 											sshTransfer(
-												execCommand: "cat test1.txt",
-												remoteDirectory: "rkuwartest_jenkins", 
+												execCommand: "echo \$? > result.txt",
+												remoteDirectory: "test_jenkins", 
 												sourceFiles: 'test1.txt'
 											)
 										], 
