@@ -1,7 +1,7 @@
 pipeline {
  agent any  
 parameters {  
-    choice(name: 'containers', choices: ['mytomcat'], description: 'SSH server')  
+    choice(name: 'containers', choices: ['mytomcat','testjenkins'], description: 'SSH server')  
 }  
 stages {  
     stage('Test') {  
