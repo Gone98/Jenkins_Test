@@ -1,17 +1,17 @@
 pipeline {
- agent { label 'my_wins'} 
-parameters {  
-    choice(name: 'containers', choices: ['mytomcat','testjenkins'], description: 'SSH server')  
-}  
-stages {  
-    stage('Authenticate to GCP') {
+    agent { label 'my_wins'} 
+    stages {  
+        stage('Authenticate to GCP') {
             steps {
                 withCredentials([file(credentialsId: 'gcp-instance-gp', variable: 'GCSKEY')]) {
-                    // Use the path stored in the GCSKEY environment variable
-                    sh "gcloud auth activate-service-account --key-file=${GCSKEY}"
-
+                    // Authenticate to GCP
+                    bat "gcloud auth activate-service-account --key-file=%GCSKEY%"
+                    // Show current authenticated account
+                    bat "gcloud auth list"
+                    // Show IAM policy (replace YOUR_PROJECT_ID with your actual project ID)
+                    bat "gcloud projects get-iam-policy YOUR_PROJECT_ID --format=json"
                 }
             }
+        }
     }
-}
 }
