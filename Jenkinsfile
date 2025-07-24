@@ -5,9 +5,9 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'gcp-instance-gp', variable: 'GCSKEY')]) {
                     // Authenticate to GCP
-                    bat "gcloud auth activate-service-account --key-file=%GCSKEY%"
+                    bat 'gcloud auth activate-service-account --key-file="%GCSKEY%"'
                     // Show current authenticated account
-                    bat "gcloud auth list"
+                    bat 'gcloud auth list'
                 }
             }
         }
