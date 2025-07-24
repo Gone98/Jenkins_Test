@@ -1,31 +1,17 @@
 pipeline {
- agent any  
+ agent my_wins 
 parameters {  
-    choice(name: 'containers', choices: ['mytomcat'], description: 'SSH server')  
+    choice(name: 'containers', choices: ['mytomcat','testjenkins'], description: 'SSH server')  
 }  
 stages {  
-    stage('Test') {  
-        steps([$class: 'BapSshPromotionPublisherPlugin']) {
-                script {
-                    // SERVERS_LISTをカンマで分割してサーバーリストの配列を作成する
-                    env.serverList =  params.containers
-                    
-							sshPublisher(
-								publishers: [
-									sshPublisherDesc(
-										configName: "${env.serverList}",
-										transfers: [
-											sshTransfer(
-												execCommand: "echo \$? > result.txt",
-												remoteDirectory: "test_jenkins", 
-												sourceFiles: 'test1.txt'
-											)
-										], 
-									)
-								]
-							)
-                }    
-        }
+    stage('Authenticate to GCP') {
+            steps {
+                withCredentials([file(credentialsId: 'gcp-instance-gp', variable: 'GCSKEY')]) {
+                    // Use the path stored in the GCSKEY environment variable
+                    sh "gcloud auth activate-service-account --key-file=${GCSKEY}"
+
+                }
+            }
     }
 }
 }
