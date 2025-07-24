@@ -1,5 +1,5 @@
 pipeline {
- agent my_wins 
+ agent { label 'my_wins'} 
 parameters {  
     choice(name: 'containers', choices: ['mytomcat','testjenkins'], description: 'SSH server')  
 }  
