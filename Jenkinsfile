@@ -8,8 +8,6 @@ pipeline {
                     bat "gcloud auth activate-service-account --key-file=%GCSKEY%"
                     // Show current authenticated account
                     bat "gcloud auth list"
-                    // Show IAM policy (replace YOUR_PROJECT_ID with your actual project ID)
-                    bat "gcloud projects get-iam-policy YOUR_PROJECT_ID --format=json"
                 }
             }
         }
