@@ -11,5 +11,11 @@ pipeline {
                 }
             }
         }
+        stage('Remove Instance from Instance Group') {
+            steps {
+                // Replace the placeholders with your actual values
+                bat 'gcloud compute instance-groups managed remove-instances lbtest-ap1  --instances=lbtest-ap1  --zone=asia-northeast1-c'
+            }
+        }
     }
 }
